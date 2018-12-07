@@ -28,12 +28,6 @@ namespace Weather.Monitor
             log.Info($"storage conn string: {GetStorageConnectionString(executionContext)}");
             log.Info($"sendgrid api key: {GetSendGridApiKey(executionContext)}");
 
-            //var requestMessage = new HttpRequestMessage();
-            //requestMessage.Headers.Add("User-Agent", "c1b4a00f-606a-4923-a09a-e7e71a590e28");
-            //requestMessage.RequestUri = new Uri($"https://api.weather.gov/gridpoints/GSP/61,68/forecast/hourly");
-            //log.Info(await (await new HttpClient().SendAsync(requestMessage)).Content.ReadAsStringAsync());
-
-
             var subscriberRepository = new SubscriberRepository(GetTableClient(executionContext));
             var imageRepository = new ImageRepository(GetBlobClient(executionContext));
             //await CreateRandomSubscriber(subscriberRepository, log);
@@ -89,7 +83,7 @@ namespace Weather.Monitor
                 };
                 var emailMsg = CreateEmail(payload,
                                             "d-3d18bbae54914715b085ba3bbdc0628d",
-                                            new List<EmailAddress> { new EmailAddress("abdulkhaliqzaheer@gmail.com", "akzgmail") },
+                                            new List<EmailAddress> { new EmailAddress("huh?@gmail.com", "akzgmail") },
                                             "Weather Forecast",
                                             new EmailAddress("Zaheer_The_Weatherman@dialmformystery.com"));
                 subscriber.Subscribers.ForEach(x => emailMsg.Personalizations.Add(new Personalization()
@@ -175,12 +169,12 @@ namespace Weather.Monitor
                 {
                     new Subscriber()
                     {
-                        Email = "abdulkhaliqzaheer@hotmail.com",
-                        Name = "Pam And Brent"
+                        Email = "who?@hotmail.com",
+                        Name = "P&B"
                     },
                     new Subscriber()
                     {
-                        Email = "abdulkhaliqzaheer@gmail.com",
+                        Email = "what?@gmail.com",
                         Name = "Akz"
                     },
                 }
@@ -195,7 +189,7 @@ namespace Weather.Monitor
                 {
                     new Subscriber()
                     {
-                        Email = "homunculo.genio@gmail.com",
+                        Email = "hg@gmail.com",
                         Name = "Who and hu?"
                     }
                 }
@@ -207,69 +201,11 @@ namespace Weather.Monitor
         public static SendGridMessage CreateEmail(object templateData, string templateId, List<EmailAddress> to, string subject, EmailAddress from)
         {
             var msg = new SendGridMessage();
-
-            //msg.SetFrom(new EmailAddress("abdul@dialmformystery.com", "Abdul The Mystery Man"));
             msg.SetFrom(from);
-
-            //var recipients = new List<EmailAddress>
-            //{
-            //    new EmailAddress("abdulmacchiato@gmail.com", "The_Real_Boss_AM"),
-            //    new EmailAddress("homunculo.genio@gmail.com", "The_Real_Boss_HG"),
-            //    new EmailAddress("abdulkhaliqzaheer@gmail.com", "The_Real_Boss_AKZ")
-            //};
-            //msg.AddTos(recipients);
             msg.AddTos(to);
-
-            //msg.SetSubject("Testing the SendGrid C# Library");
             msg.SetSubject(subject);
-
-            //msg.AddContent(MimeType.Text, "Tryna authenticate with the domain as well");
-            //msg.AddContent(MimeType.Html, "<p>Hello World! <b>sending in bold too mayunh!</b> and domain auth-ed email preeze</p>");
-
-            //msg.TemplateId = "d-3a7f067a3fa44f31b931cb001ac760e9";
             msg.TemplateId = templateId;
-
             msg.SetTemplateData(templateData);
-
-            //msg.SetTemplateData(new
-            //{
-            //    Sender_Name = "asdf",
-            //    Sender_Address = "864 Spring St NW",
-            //    Sender_City = "Atlanta",
-            //    Sender_State = "GA",
-            //    Sender_Zip = "30308",
-            //    Items = new List<object> {
-            //        new
-            //        {
-            //            Name= "Primingham Manor",
-            //            Price= "$7.66",
-            //            Quantity= 4,
-            //            Total= "$30.64"
-            //        },
-            //        new
-            //        {
-            //            Name= "Charla's Adventures",
-            //            Price= "$3.50",
-            //            Quantity= 2,
-            //            Total= "$7.00"
-            //        },
-            //        new
-            //        {
-            //            Name= "Zahela Wedding Book",
-            //            Price= "$7.75",
-            //            Quantity= 1,
-            //            Total= "$7.75"
-            //        }
-            //    }
-            //});
-            //msg.AddSubstitutions(new Dictionary<string, string>
-            //{
-            //    { "Sender_Name", "asdfk"},
-            //    { "Sender_Address", "864 Spring St NW"},
-            //    { "Sender_City", "Atlanta"},
-            //    { "Sender_State", "GA"},
-            //    { "Sender_Zip", "30308"}
-            //});
             msg.SetClickTracking(true, false);
             msg.SetOpenTracking(true);
             return msg;
